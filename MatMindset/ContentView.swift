@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct ContentView: View {
+    let sessions: [MMSessionModel] = MMSessionModel.mockSessions
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            List(sessions, id: \.self) { session in
+                Text(session.sessionNotes ?? "No notes")
+            }
+            .navigationTitle("Mat Mindset")
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .padding()
     }
 }
 
