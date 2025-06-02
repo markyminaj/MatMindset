@@ -16,6 +16,11 @@ struct TabBarView: View {
                     Label("Home", systemImage: "house")
                 }
             
+            SessionGalleryView(sessions: sessions)
+                .tabItem {
+                    Label("Sessions", systemImage: "square.and.arrow.up.on.square")
+                }
+            
             ProfileView()
                 .tabItem {
                     Label("Profile", systemImage: "person.fill")

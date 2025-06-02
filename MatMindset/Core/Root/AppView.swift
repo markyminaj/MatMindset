@@ -11,17 +11,17 @@ import SwiftUI
 struct AppView: View {
 
     //@State var appState: AppState = AppState()
-    @AppStorage("hasOnboarded") private var hasOnboarded: Bool = false
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
 
     
     var body: some View {
         AppViewBuilder(
-            showTabbar: hasOnboarded,
+            showTabbar: hasCompletedOnboarding,
             tabbarView: {
                 TabBarView()
             },
             onboardingView: {
-                WelcomeView()
+                OnboardingView()
             }
         )
     }

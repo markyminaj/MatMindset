@@ -5,29 +5,30 @@
 //  Created by Mark Martin on 5/30/25.
 //
 
+
 import Foundation
 import HealthKit
 
 class HealthKitManager {
     static let shared = HealthKitManager()
     let healthStore = HKHealthStore()
-
+    
     func requestAuthorization(completion: @escaping (Bool) -> Void) {
         guard HKHealthStore.isHealthDataAvailable() else {
             completion(false)
             return
         }
-
+        
         let typesToShare: Set = [
             HKObjectType.workoutType()
         ]
-
+        
         let typesToRead: Set = [
             HKObjectType.workoutType(),
             HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!,
             HKObjectType.quantityType(forIdentifier: .heartRate)!
         ]
-
+        
         healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead) { success, error in
             DispatchQueue.main.async {
                 completion(success)
@@ -58,10 +59,11 @@ class HealthKitManager {
         }
     }
 
+    
     func fetchWorkouts(completion: @escaping ([HKWorkout]) -> Void) {
         let predicate = HKQuery.predicateForWorkouts(with: .martialArts)
         let sort = [NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)]
-
+        
         let query = HKSampleQuery(
             sampleType: HKObjectType.workoutType(),
             predicate: predicate,
@@ -73,7 +75,7 @@ class HealthKitManager {
                 completion(workouts)
             }
         }
-
+        
         healthStore.execute(query)
     }
 }

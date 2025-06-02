@@ -280,9 +280,13 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MatMindset/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires camera access to verify your gym check-in";
 				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "\"We will use this data to keep your health records up to date.\"";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "\"We will use this data to keep your health records up to date.\"";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "\"We will use this data to keep your health records up to date.\"";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "\"We need your location tracking to be on to check if you're at the gym.\"";
+				INFOPLIST_KEY_NSLocationUsageDescription = "\"We need your location info to track if you're at the gym.\"";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"Tracking to see if you're at the gym.\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -313,9 +317,13 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MatMindset/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires camera access to verify your gym check-in";
 				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "\"We will use this data to keep your health records up to date.\"";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "\"We will use this data to keep your health records up to date.\"";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "\"We will use this data to keep your health records up to date.\"";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "\"We need your location tracking to be on to check if you're at the gym.\"";
+				INFOPLIST_KEY_NSLocationUsageDescription = "\"We need your location info to track if you're at the gym.\"";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"Tracking to see if you're at the gym.\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

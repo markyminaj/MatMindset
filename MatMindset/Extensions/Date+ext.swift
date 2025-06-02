@@ -28,3 +28,9 @@ extension Date {
         calendar.component(.weekday, from: self)
     }
 }
+
+extension Date {
+    var startOfDay: Date {
+        Calendar.current.startOfDay(for: self)
+    }
+}
