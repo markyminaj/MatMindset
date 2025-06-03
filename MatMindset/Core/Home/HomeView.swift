@@ -101,8 +101,8 @@ struct HomeView: View {
                 
                 
                 // Example gym, should be dynamic
-                let storeLatitude = 32.6226760
-                let storeLongitude = -116.9999206
+                let storeLatitude = 32.8208964
+                let storeLongitude = -117.126844024
                 let gym = CLLocationCoordinate2D(latitude: storeLatitude, longitude: storeLongitude)
                 locationManager.setGymLocation(latitude: gym.latitude, longitude: gym.longitude)
                 
