@@ -19,14 +19,22 @@ final class LocationManager: NSObject, Sendable {
     @MainActor var currentLocationName: String?
     
     // MARK: - Private Properties
-    private var gymLocation: CLLocation?
+    // private var gymLocation: CLLocation? // Removed
     var isAtGym = false
+    // private var allowedRadius: Double = 100 // meters // Removed
 
-    private var allowedRadius: Double = 100 // meters
+    @AppStorage("favoriteGyms") private var favoriteGymsData: Data = Data() // Added
+    private var favoritedGyms: [GymLocation] { // Added
+        if let decoded = try? JSONDecoder().decode([GymLocation].self, from: favoriteGymsData) {
+            return decoded
+        }
+        return []
+    }
     
     override init() {
         super.init()
         locationManager.delegate = self
+        print("LocationManager initialized with \(favoritedGyms.count) favorite gyms.") // Added log
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
     }
     
@@ -49,18 +57,21 @@ final class LocationManager: NSObject, Sendable {
         return distance <= radiusInMeters
     }
     
-    /// Set the gym location to compare against
-    func setGymLocation(latitude: Double, longitude: Double, radius: Double = 100) {
-        self.gymLocation = CLLocation(latitude: latitude, longitude: longitude)
-        self.allowedRadius = radius
-    }
+    // Removed setGymLocation function
     
-    /// Returns true if the user is within range of the gym
-    func checkProximityToGym() -> Bool {
-        guard let current = currentLocation, let gym = gymLocation else { return false }
-        let distance = current.distance(from: gym)
-        let isWithinGymRegion = distance <= allowedRadius
-        return isWithinGymRegion
+    /// Returns true if the user is within range of any favorited gym
+    func checkProximityToFavoritedGyms(radiusInMeters: Double = 100) -> Bool { // Renamed and updated
+        guard let userLocation = currentLocation else { return false }
+        guard !favoritedGyms.isEmpty else { return false }
+
+        for gym in favoritedGyms {
+            let gymCLLocation = CLLocation(latitude: gym.latitude, longitude: gym.longitude)
+            let distance = userLocation.distance(from: gymCLLocation)
+            if distance <= radiusInMeters {
+                return true // User is near at least one favorited gym
+            }
+        }
+        return false // User is not near any favorited gym
     }
     
     func getCurrentLocation() async throws -> CLLocation {
@@ -111,15 +122,14 @@ extension LocationManager: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let userLocation = locations.last, let gym = gymLocation else { return }
+        guard let userLocation = locations.last else { return } // Removed gymLocation check
         
-        let distance = userLocation.distance(from: gym) // in meters
         self.currentLocation = userLocation
+        // Updated isAtGym logic
+        isAtGym = checkProximityToFavoritedGyms(radiusInMeters: 50) // Using 50 meters as the threshold
 
-        isAtGym = distance <= 50 // threshold for "at gym" (50 meters)
         print("📍 Current location: \(currentLocation?.coordinate.latitude ?? 0), \(currentLocation?.coordinate.longitude ?? 0)")
         print("📍 isAtGym: \(isAtGym)")
-
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
