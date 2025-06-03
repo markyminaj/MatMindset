@@ -98,13 +98,13 @@ struct HomeView: View {
                 // Request location access and optionally set the gym location if needed
                 locationManager.requestAuthorization()
                 locationManager.startUpdatingLocation() // ✅ THIS IS CRITICAL
-                
-                
+             
                 // Example gym, should be dynamic
                 let storeLatitude = 32.8208964
                 let storeLongitude = -117.126844024
                 let gym = CLLocationCoordinate2D(latitude: storeLatitude, longitude: storeLongitude)
                 locationManager.setGymLocation(latitude: gym.latitude, longitude: gym.longitude)
+
                 
                 if isCheckedIn {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 60 * 60) { // 1 hour later
