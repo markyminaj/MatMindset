@@ -7,11 +7,8 @@
 
 import SwiftUI
 
-struct GymLocation: Codable, Equatable, Identifiable {
-    var id: UUID = UUID() // Add this
+struct GymLocation: Codable, Equatable {
     var name: String
-    var latitude: Double   // Add this
-    var longitude: Double  // Add this
 }
 
 struct SimpleGymPickerView: View {
@@ -19,9 +16,7 @@ struct SimpleGymPickerView: View {
     @Binding var selectedGym: GymLocation?
 
     @State private var gymName: String = ""
-    @State private var gymLatitude: String = "" // Add this
-    @State private var gymLongitude: String = "" // Add this
-    @State private var favoriteGyms: [GymLocation] = []
+    @State private var favoriteGyms: [String] = []
 
     @AppStorage("favoriteGyms") private var favoriteGymsData: Data = Data()
 
@@ -30,18 +25,16 @@ struct SimpleGymPickerView: View {
             Form {
                 Section(header: Text("Enter Gym Name")) {
                     TextField("Gym Name", text: $gymName)
-                    TextField("Latitude", text: $gymLatitude).keyboardType(.decimalPad) // Add this
-                    TextField("Longitude", text: $gymLongitude).keyboardType(.decimalPad) // Add this
                 }
 
                 if !favoriteGyms.isEmpty {
                     Section(header: Text("Favorites")) {
-                        ForEach(favoriteGyms) { gym in // Use default Identifiable conformance
+                        ForEach(favoriteGyms, id: \.self) { gym in
                             Button(action: {
-                                selectedGym = gym // gym is now a GymLocation
+                                selectedGym = GymLocation(name: gym)
                                 dismiss()
                             }) {
-                                Text(gym.name) // Display gym's name
+                                Text(gym)
                             }
                         }
                         .onDelete(perform: deleteFavorite)
@@ -66,13 +59,13 @@ struct SimpleGymPickerView: View {
     }
 
     private func loadFavorites() {
-        if let decoded = try? JSONDecoder().decode([GymLocation].self, from: favoriteGymsData) { // Decode [GymLocation]
+        if let decoded = try? JSONDecoder().decode([String].self, from: favoriteGymsData) {
             favoriteGyms = decoded
         }
     }
 
     private func saveFavorites() {
-        if let encoded = try? JSONEncoder().encode(favoriteGyms) { // Encode [GymLocation]
+        if let encoded = try? JSONEncoder().encode(favoriteGyms) {
             favoriteGymsData = encoded
         }
     }
@@ -81,22 +74,12 @@ struct SimpleGymPickerView: View {
         let trimmedName = gymName.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedName.isEmpty else { return }
 
-        let lat = Double(gymLatitude) ?? 0.0 // Parse latitude
-        let lon = Double(gymLongitude) ?? 0.0 // Parse longitude
-        let newGym = GymLocation(name: trimmedName, latitude: lat, longitude: lon) // Use parsed coordinates
-
-        if !favoriteGyms.contains(where: { $0.name == newGym.name }) { // Check for existence by name
-            favoriteGyms.append(newGym) // Append GymLocation instance
+        if !favoriteGyms.contains(trimmedName) {
+            favoriteGyms.append(trimmedName)
             saveFavorites()
         }
 
-        selectedGym = newGym // Assign the new GymLocation instance
-
-        // Clear input fields
-        gymName = ""
-        gymLatitude = ""
-        gymLongitude = ""
-
+        selectedGym = GymLocation(name: trimmedName)
         dismiss()
     }
 
