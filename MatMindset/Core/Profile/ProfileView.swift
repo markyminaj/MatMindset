@@ -46,6 +46,9 @@ struct ProfileView: View {
                         }
                     }
                     // TextField("Gym", text: $userGym) // Removed
+
+                    TextField("Home Gym", text: $userGym)
+
                 }
 
                 Section(header: Text("Training Goal")) {
