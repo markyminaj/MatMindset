@@ -10,7 +10,7 @@ import SwiftUI
 struct ProfileView: View {
     @AppStorage("userName") private var userName: String = ""
     @AppStorage("userRank") private var userRank: String = "White"
-    // @AppStorage("userGym") private var userGym: String = "" // Removed
+   // @AppStorage("userGym") private var userGym: String = "" // Removed
     @AppStorage("monthlyGoal") private var monthlyGoal: Int = 12
 
     @State private var showingGymPicker = false // Added for sheet presentation
@@ -45,10 +45,6 @@ struct ProfileView: View {
                             Text(belt)
                         }
                     }
-                    // TextField("Gym", text: $userGym) // Removed
-
-                    TextField("Home Gym", text: $userGym)
-
                 }
 
                 Section(header: Text("Training Goal")) {

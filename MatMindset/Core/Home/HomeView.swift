@@ -98,6 +98,7 @@ struct HomeView: View {
                 // Request location access and optionally set the gym location if needed
                 locationManager.requestAuthorization()
                 locationManager.startUpdatingLocation() // ✅ THIS IS CRITICAL
+
              
                 // Example gym, should be dynamic
                 let storeLatitude = 32.8208964
