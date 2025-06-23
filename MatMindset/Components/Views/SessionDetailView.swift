@@ -5,7 +5,6 @@
 //  Created by Mark Martin on 5/30/25.
 //
 
-
 import SwiftUI
 import MapKit
 import CoreLocation
@@ -48,17 +47,17 @@ struct SessionDetailView: View {
                         .font(.caption)
                         .foregroundColor(.secondary)
 
-                        let region = MKCoordinateRegion(
+                        let position = MapCameraPosition.region(MKCoordinateRegion(
                             center: coord,
                             span: MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001)
-                        )
-
-                        Map(coordinateRegion: .constant(region),
-                            annotationItems: [IdentifiableCoordinate(coordinate: coord)]
-                        ) { item in
-                            MapMarker(coordinate: item.coordinate, tint: .blue)
+                        ))
+                        Map(position: .constant(position), interactionModes: []) {
+                            Annotation("Check-In Location", coordinate: coord) {
+                                Image(systemName: "mappin.circle.fill")
+                                    .font(.title)
+                                    .foregroundColor(.blue)
+                            }
                         }
-
                         .frame(height: 150)
                         .cornerRadius(10)
                     }
@@ -103,10 +102,3 @@ struct SessionDetailView: View {
         }
     }
 }
-
-struct IdentifiableCoordinate: Identifiable {
-    let id = UUID()
-    let coordinate: CLLocationCoordinate2D
-}
-
-

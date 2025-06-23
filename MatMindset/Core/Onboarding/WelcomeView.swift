@@ -25,7 +25,7 @@ struct WelcomeView: View {
                 .font(.largeTitle.bold())
                 .multilineTextAlignment(.center)
 
-            Text("Track your training, improve your mindset, and stay accountable on your BJJ journey.")
+            Text("Track your training, improve your mindset, and stay accountable on your BJJ journey. TEST CHANGE")
                 .font(.body)
                 .multilineTextAlignment(.center)
                 .foregroundColor(.secondary)
